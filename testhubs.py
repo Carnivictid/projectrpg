@@ -70,6 +70,9 @@ class EnemyTile(MapTile):
         return """\nHere is the title text.\n"""
 
     def modify_player(self, player):
+        self.enemy_turn(player)
+    
+    def enemy_turn(self, player):
         if len(self.enemy) > 0:
             for number, monster in enumerate(self.enemy, 1):
                 if monster.is_dead():
