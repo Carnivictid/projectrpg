@@ -12,6 +12,7 @@ class MapTile:
         self.y = y
         self.round_count = 0
         self.is_dangerous = False
+        self.enemy = []
 
     def intro_text(self):
         raise NotImplementedError("Create a subclass instead")
@@ -55,38 +56,25 @@ class VictoryTile(MapTile):
 		player.victory = True		
 		
 		
-		
-		
-		
-		
-	
-'''
-class StartTile(MapTile):
+#========== Enemy tile for testing. ==========#		
+class EnemyTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.is_dangerous = True
-        self.enemy = [enemies.LargeRat(),
-                      enemies.SmallGoblin()]
-
+        self.enemy = [enemies.LargeRat()]
+        
     def intro_text(self):
-        return """\nThe stench of death and rot are all around you."""
+        return """\n\nA monster is in this tile! Aaahhh!"""
     
     def title_text(self):
-        return """This is the starting tile!"""
+        return """\nHere is the title text.\n"""
 
     def modify_player(self, player):
-        attack_pool = []
-        attack_pool.append(player)
-        for member in player.party:
-            attack_pool.append(member)
-            
         if len(self.enemy) > 0:
             for number, monster in enumerate(self.enemy, 1):
                 if monster.is_dead():
                     self.enemy.remove(monster)
-                elif monster.is_alive():
-                    chance = random.randint(1, len(attack_pool)) - 1
-                    monster.attack_player(attack_pool[chance], number)
+                else:
+                    monster.attack_player(player)
         if len(self.enemy) <= 0:
             self.is_dangerous = False
-'''

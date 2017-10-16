@@ -13,6 +13,7 @@ VICTORY_TILE = testhubs.VictoryTile
 # World.py shouldn't have anything else added to it.
 tile_type_dict = {"STT": STARTING_TILE,
                   "VYT": VICTORY_TILE,
+                  "ENT": testhubs.EnemyTile,
                   "   ": None}
 
 				  

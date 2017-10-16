@@ -14,7 +14,7 @@ class Enemy:
     def is_dead(self):
         return self.hp < 0
 
-    def attack_player(self, player, number):
+    def attack_player(self, player):
         if self.is_alive():
             print("\n{} attacks {}.".format(self.name, player), end=' ')
             roll = random.randint(1, 20) + self.ab + self.str
