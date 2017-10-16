@@ -47,6 +47,7 @@ def play():
                 if check_room != room:
                     break
 			
+			# Breaking the loop, or else it loops forever. This can be refactored.
             elif player.is_alive() and player.victory:
                 break
             
