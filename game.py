@@ -53,8 +53,8 @@ def play():
 			# Breaking the loop, or else it loops forever. This can be refactored.
             elif player.is_alive() and player.victory:
                 break
-                
-    print("\nYour journey has come to an early end! But it's not over yet.")
+    if player.is_dead():
+        print("\nYour journey has come to an early end! But it's not over yet.")
 
 def choose_action(room, player):
     action = None
