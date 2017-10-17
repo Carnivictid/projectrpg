@@ -135,6 +135,10 @@ class Player:
         for item in self.item_inventory:
             print("* " + str(item))
 
+	#TODO Make a healing function
+	def heal(self):
+		pass
+			
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
