@@ -32,9 +32,9 @@ class Enemy:
 class LargeRat(Enemy):
     def __init__(self):
         self.name = "Dire Rat"
-        self.hp = (random.randint(1, 8) + 100)
+        self.hp = (random.randint(1, 8) + 1)
         self.damage = 4
-        self.ab = 20
+        self.ab = 3
         self.str = 0
         self.ac = 12
         self.exp = 135
