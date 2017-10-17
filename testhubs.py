@@ -25,12 +25,16 @@ class MapTile:
             for number, monster in enumerate(self.enemy, 1):
                 if monster.is_alive():
                     monster.attack_player(player)
-        if len(self.enemy) > 0:
-            for number, monster in enumerate(self.enemy, 1):
-                if monster.is_dead():
+                elif monster.is_dead():
+                    player.exp += monster.exp
+                    print("The monster gives you {} exp!".format(monster.exp))
                     self.enemy.remove(monster)
+        for number, monster in enumerate(self.enemy, 1):
+            if monster.is_dead():
+                self.enemy.remove(monster)
         if len(self.enemy) <= 0:
             self.is_dangerous = False
+            
 		
 		
 #========== Starting tile for testing. ==========#

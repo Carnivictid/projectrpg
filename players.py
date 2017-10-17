@@ -86,6 +86,17 @@ class Player:
         
     def is_dead(self):
         return self.hp < 0
+        
+    def level_up(self):
+        # up level and roll hp.
+        self.level += 1
+        print("You have leveled to Level: {}".format(self.level))
+        
+        hd_roll = random.randint(1, self.hit_dice) + self.con_mod
+        self.max_hp += hd_roll
+        self.hp = self.max_hp
+        print("You have gained {} HP for a total of {} HP".format(hd_roll, self.max_hp))
+        self.refresh_level()
          
     def refresh_level(self):
         # This function refreshes all of the stat-dependant variables. All are in the Player __init__
@@ -126,6 +137,7 @@ class Player:
 
     def print_inventory(self):
         # Prints a list of inventory
+        print("EXP: {}".format(self.exp))
         print("\nArmor and Weapons:")
         for item in self.armor_inventory:
             print("* " + str(item))
@@ -254,3 +266,13 @@ class Player:
         
     def wait(self):
         pass
+        
+    def check_for_level(self):
+        # X is desired level, X * (X - 1) * 500 = exp to desired level
+        exp_to_level = ((self.level + 1) * (self.level) * 500)
+        
+        if self.exp >= exp_to_level:
+            self.level_up()
+        
+        
+        
