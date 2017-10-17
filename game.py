@@ -13,7 +13,7 @@ def play():
     player.refresh_level()
 
     # The game loop begins. Looks to see if the game has been won.
-    while not player.victory:
+    while not player.victory and player.is_alive():
     
         # The player's current tile is called.
         room = world.tile_at(player.x, player.y)
@@ -50,11 +50,8 @@ def play():
 			# Breaking the loop, or else it loops forever. This can be refactored.
             elif player.is_alive() and player.victory:
                 break
-            
-            # If the player dies, the game over text appears.
-            elif not player.is_alive():
-                print("\nYour journey has come to an early end! But it's not over yet.")
-
+                
+    print("\nYour journey has come to an early end! But it's not over yet.")
 
 def choose_action(room, player):
     action = None
