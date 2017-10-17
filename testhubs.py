@@ -61,7 +61,8 @@ class EnemyTile(MapTile): #TODO Work on combat
     def __init__(self, x, y):
         super().__init__(x, y)
         self.is_dangerous = True
-        self.enemy = [enemies.LargeRat()]
+        self.enemy = [enemies.LargeRat(),
+                      enemies.LargeRat()]
         
     def intro_text(self):
         return """\n\nA monster is in this tile! Aaahhh!"""
@@ -75,9 +76,11 @@ class EnemyTile(MapTile): #TODO Work on combat
     def enemy_turn(self, player):
         if len(self.enemy) > 0:
             for number, monster in enumerate(self.enemy, 1):
+                if monster.is_alive():
+                    monster.attack_player(player)
+        if len(self.enemy) > 0:
+            for number, monster in enumerate(self.enemy, 1):
                 if monster.is_dead():
                     self.enemy.remove(monster)
-                else:
-                    monster.attack_player(player)
         if len(self.enemy) <= 0:
             self.is_dangerous = False

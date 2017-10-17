@@ -135,9 +135,9 @@ class Player:
         for item in self.item_inventory:
             print("* " + str(item))
 
-	#TODO Make a healing function
-	def heal(self):
-		pass
+    #TODO Make a healing function
+    def heal(self):
+        pass
 			
     def move(self, dx, dy):
         self.x += dx
@@ -154,22 +154,6 @@ class Player:
 
     def move_west(self):
         self.move(dx=-1, dy=0)
-        
-	# rename and refactor to just be a solo player for now.
-    def get_list_of_actors(self):
-        room = world.tile_at(self.x, self.y)
-        enemy = room.enemy
-        
-        temp_party = []
-        temp_party.append(self)
-        for member in self.party:
-            temp_party.append(member)
-            
-        total_party = temp_party + enemy
-        return total_party
-        
-    def initiatives(self):
-        total_party = self.get_list_of_actors
         
     def attack(self):
         room = world.tile_at(self.x, self.y)
@@ -206,13 +190,15 @@ class Player:
                 print("\nWhat kind of action will you take?")
                 choice2 = input("Choice: ")
                 print()
+        else:
+            print("Something went wrong, you can't call an attack with no enemies in the room")
 
     def melee_attack(self, target, **kwargs):
         critical = 1
         ensure_hit = 0
         
         # A standard attack. Accounts for number of attacks.
-        print("\n{} => {}".format(self.name, target))
+        print("\n{} attack {}".format(self.name, target))
         
         # temp_attack_bonus is drained by 5 for each attack.
         temp_attack_bonus = self.attack_bonus
@@ -262,7 +248,6 @@ class Player:
             else:
                 # The target was dead when attacked.
                 print("Target has died.")
-                return False
             
     def check_weight(self):
         pass
