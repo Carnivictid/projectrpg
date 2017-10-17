@@ -23,13 +23,14 @@ class Player:
         self.player_class = classes.Fighter()
 
         # Item inventory for the player.
-        self.item_inventory = []
+        self.item_inventory = [items.LightHealingPotion(),
+                               items.LightHealingPotion()]
         self.map_inventory = []
         self.gold = 0
 
         # Weapon / Armor inventory for the player
-        self.arms_inventory = [items.ShortSword()]
-        self.armor_inventory = []
+        self.arms_inventory = []
+        self.armor_inventory = [items.BucklerShield()]
         
         self.ac_bonus = 0
         self.worn_armor = None
@@ -137,20 +138,48 @@ class Player:
 
     def print_inventory(self):
         # Prints a list of inventory
-        print("EXP: {}".format(self.exp))
-        print("\nArmor and Weapons:")
+        print("="*16)
+        print("Level: {} | EXP: {} | Gold: {}".format(self.level, self.exp, self.gold))
+        print("HP: {}/{} | AC: {}".format(self.hp, self.max_hp, self.ac))
+        print("\nEquipped:\nWeapon: {}\nArmor: {}\nShield: {}".format(self.worn_weapon, self.worn_armor, self.worn_shield))
+        print("\nBackpack:")
         for item in self.armor_inventory:
             print("* " + str(item))
         for item in self.arms_inventory:
             print("* " + str(item))
-        print("Backpack:")
         for item in self.item_inventory:
             print("* " + str(item))
+        print("="*16) 
 
-    #TODO Make a healing function
     def heal(self):
-        pass
-			
+        healing_items = [item for item in self.item_inventory 
+                         if isinstance(item, items.Consumable)]
+        
+        if not healing_items:
+            print("\nYou have nothing to heal with!")
+            return
+        
+        print("="*16) 
+        print("Choose an item to use:\n")
+        for i, item in enumerate(healing_items, 1):
+            print("{}: {}".format(i, item))
+        print("\nc: Cancel healing action")
+        print("="*16)    
+        valid = False
+        while not valid:
+            choice = input("")
+            try:
+                if choice == ("c" or "C"):
+                    return
+                to_eat = healing_items[int(choice) - 1]
+                print("You heal {} points of damage".format(to_eat.healing_value))
+                
+                self.hp = max(self.max_hp, self.hp + to_eat.healing_value)
+                self.item_inventory.remove(to_eat)
+                valid = True
+            except (ValueError, IndexError):
+                print("Invalid choice, try again.")
+            
     def move(self, dx, dy):
         self.x += dx
         self.y += dy
@@ -268,7 +297,7 @@ class Player:
         pass
         
     def check_for_level(self):
-        # X is desired level, X * (X - 1) * 500 = exp to desired level
+        # X is current level, (X + 1) * X * 500 = exp to desired level
         exp_to_level = ((self.level + 1) * (self.level) * 500)
         
         if self.exp >= exp_to_level:

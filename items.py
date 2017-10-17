@@ -32,7 +32,7 @@ class Consumable:
         raise NotImplementedError("Do not create raw Consumable objects.")
 
     def __str__(self):
-        return self.name + ' :' + self.heals
+        return self.name + ': ' + self.heals
 
 
 class Item:

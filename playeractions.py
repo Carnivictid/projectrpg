@@ -5,11 +5,11 @@ from collections import OrderedDict
 def get_available_actions(room, player):
     actions = OrderedDict()
     print("\nChoose an action: ")
-    print("You: {}/{} HP | {} Gold".format(player.hp, player.max_hp, player.gold))
+    print("You: {}/{} HP | {} lv.{} | {} Exp".format(player.hp, player.max_hp, player.player_class, player.level, player.exp))
     if player.is_alive:
         action_adder(actions, 'i', player.print_inventory, "Look in backpack")
     if player.is_alive:
-        action_adder(actions, 'h', player.wait, "Heal\n") #TODO Add a healing function.
+        action_adder(actions, 'h', player.heal, "Heal\n") #TODO Add a healing function.
     # ======= MOVEMENT COMMANDS ======= #
     if world.tile_at(room.x, room.y - 1) and room.is_dangerous is False:
         action_adder(actions, 'n', player.move_north, "Go north")
