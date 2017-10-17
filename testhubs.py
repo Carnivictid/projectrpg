@@ -20,6 +20,17 @@ class MapTile:
     def modify_player(self, player):
         pass
 		
+    def enemy_attacks(self, player):
+        if len(self.enemy) > 0:
+            for number, monster in enumerate(self.enemy, 1):
+                if monster.is_alive():
+                    monster.attack_player(player)
+        if len(self.enemy) > 0:
+            for number, monster in enumerate(self.enemy, 1):
+                if monster.is_dead():
+                    self.enemy.remove(monster)
+        if len(self.enemy) <= 0:
+            self.is_dangerous = False
 		
 		
 #========== Starting tile for testing. ==========#
@@ -71,16 +82,6 @@ class EnemyTile(MapTile): #TODO Work on combat
         return """\nHere is the title text.\n"""
 
     def modify_player(self, player):
-        self.enemy_turn(player)
+        self.enemy_attacks(player)
     
-    def enemy_turn(self, player):
-        if len(self.enemy) > 0:
-            for number, monster in enumerate(self.enemy, 1):
-                if monster.is_alive():
-                    monster.attack_player(player)
-        if len(self.enemy) > 0:
-            for number, monster in enumerate(self.enemy, 1):
-                if monster.is_dead():
-                    self.enemy.remove(monster)
-        if len(self.enemy) <= 0:
-            self.is_dangerous = False
+    
