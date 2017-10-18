@@ -23,19 +23,9 @@ class Player:
         self.player_class = classes.Fighter()
 
         # Item inventory for the player.
-        self.item_inventory = [items.LightHealingPotion(),
-                               items.LightHealingPotion()]
+        self.item_inventory = []
         self.map_inventory = []
         self.gold = 0
-
-        # Weapon / Armor inventory for the player
-        self.arms_inventory = []
-        self.armor_inventory = [items.BucklerShield()]
-        
-        self.ac_bonus = 0
-        self.worn_armor = None
-        self.worn_shield = None
-        self.worn_weapon = items.ShortSword()
 
         # Ability Scores
         self.str = 16
@@ -57,12 +47,21 @@ class Player:
         self.attack_bonus = self.bab + self.str_mod
         self.number_of_attacks = 0
 
+        # Weapon / Armor inventory for the player
+        self.arms_inventory = [items.Dagger()]
+        self.armor_inventory = []
+        
+        self.worn_armor = items.PaddedArmor()
+        self.worn_shield = items.BucklerShield()
+        self.worn_weapon = items.ShortSword()
+        self.ac_bonus = self.get_ac_bonus()
+        
         # Armor Class and HP Stats
         self.hit_dice = self.player_class.hit_dice
         self.max_hp = int(self.hit_dice + self.con_mod)
         self.hp = self.max_hp
         
-        self.ac = int(10 + self.dex_mod + self.ac_bonus)
+        self.ac = int(10 + self.ac_bonus)
         
         # Base saves!
         self.base_fort = self.player_class.base_fort_save[self.level]
@@ -98,6 +97,35 @@ class Player:
         self.hp = self.max_hp
         print("You have gained {} HP for a total of {} HP".format(hd_roll, self.max_hp))
         self.refresh_level()
+    
+    def refresh_ac_bonus(self):
+        self.ac_bonus = self.get_ac_bonus()
+        self.ac = int(10 + self.ac_bonus)
+        
+    def get_ac_bonus(self):
+        # armor + shield + dex(no more than max dex from armor)
+        total_ac_bonus = 0
+        
+        if self.worn_shield is not None:
+            shield_ac = self.worn_shield.ac_bonus
+        else:
+            shield_ac = 0
+        
+        if self.worn_armor is not None:
+            armor_ac = self.worn_armor.ac_bonus
+            max_dex = self.worn_armor.max_dex
+        else:
+            armor_ac = 0
+            max_dex = 100
+        
+        if self.dex_mod > max_dex:
+            dex_ac = max_dex
+        else:
+            dex_ac = self.dex_mod
+        
+        total_ac_bonus = armor_ac + shield_ac + dex_ac
+        
+        return total_ac_bonus
          
     def refresh_level(self):
         # This function refreshes all of the stat-dependant variables. All are in the Player __init__
@@ -138,6 +166,7 @@ class Player:
 
     def print_inventory(self):
         # Prints a list of inventory
+        
         print("="*16)
         print("Level: {} | EXP: {} | Gold: {}".format(self.level, self.exp, self.gold))
         print("HP: {}/{} | AC: {}".format(self.hp, self.max_hp, self.ac))
@@ -150,7 +179,104 @@ class Player:
         for item in self.item_inventory:
             print("* " + str(item))
         print("="*16) 
+        open = True
+        while open:
+            print("\nW: Equip Weapon\nA: Equip Armor\nS: Equip Shield\nH: Heal\nC: Close backpack")
+            action_input = input("\nAction: ")
+            
+            if action_input.lower() == "w":
+                self.equip("w")
+                open = False
+                
+            if action_input.lower() == "a":
+                self.equip("a")
+                open = False
+                
+            if action_input.lower() == "s":
+                self.equip("s")
+                open = False
+                
+            if action_input.lower() == "h":
+                self.heal()
+                open = False
+                
+            if action_input.lower() == "c":
+                open = False
 
+    def swap_item_inv(self, item, from_inv, to_inv):
+        try:
+            # remove the item from one
+            from_inv.remove(item)
+            # add the item to the new inv
+            to_inv.append(item)
+        except:
+            print("There was an issue adding the item to your inv.")
+        
+
+    def equip(self, type):
+        worn_item = None
+        inventory = None
+        item_type = None
+    
+        if type == "w":
+            worn_item = self.worn_weapon
+            inventory = self.arms_inventory
+            item_type = items.Weapon
+        elif type == "a":
+            worn_item = self.worn_armor
+            inventory = self.armor_inventory
+            item_type = items.Armor
+        elif type == "s":
+            worn_item = self.worn_shield
+            inventory = self.armor_inventory
+            item_type = items.Shield
+            
+        equipable_items = [item for item in inventory 
+                           if isinstance(item, item_type)]
+                           
+        if worn_item != None:
+            print("U: Unequip worn {}".format(worn_item))
+        
+        for number, item in enumerate(equipable_items, 1):
+            print("{}: Equip {}".format(number, item))
+            
+        valid = False
+        while not valid:
+            choice = input("Choice: ")
+            if choice.lower() == "u":
+                print("\nYou remove the {}".format(worn_item))
+                inventory.append(worn_item)
+                
+                if type == "w":
+                    self.worn_weapon = None
+                elif type == "a":
+                    self.worn_armor = None
+                elif type == "s":
+                    self.worn_shield = None
+                
+                self.refresh_ac_bonus()    
+                valid = True
+                break
+                
+            try: 
+                to_equ = equipable_items[int(choice) - 1]
+                print("\nYou equip {}".format(to_equ))
+                if worn_item != None:
+                    inventory.append(worn_item)
+                    
+                if type == "w":
+                    self.worn_weapon = to_equ
+                elif type == "a":
+                    self.worn_armor = to_equ
+                elif type == "s":
+                    self.worn_shield = to_equ
+                    
+                inventory.remove(to_equ)
+                self.refresh_ac_bonus()
+                valid = True
+            except (ValueError, IndexError):
+                print("Invalid choice, try again.")            
+                
     def heal(self):
         healing_items = [item for item in self.item_inventory 
                          if isinstance(item, items.Consumable)]
