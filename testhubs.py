@@ -63,10 +63,8 @@ class MapTile:
             else:
                 try: 
                     choice = int(user_input)
-                    print(choice)
                     to_swap = seller.trade_inventory[choice - 1]
-                    print(to_swap)
-                    self.swap(seller, buyer, to_swap)
+                    self.swap(buyer, seller, to_swap)
                 except ValueError:
                     print("Invalid choice!")
                     
