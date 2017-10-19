@@ -77,6 +77,7 @@ class Player:
         self.buff_status = False
         self.last_round = 0
         self.attack_actions = ['melee']
+        self.trade_inventory = []
 
     def __str__(self):
         return self.name

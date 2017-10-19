@@ -45,16 +45,16 @@ class MapTile:
                 return
             elif user_input.lower() == "b":
                 print("Here is what's available to buy: ")
-                self.trade(buyer = player, seller = self.trader)
+                self.trade(buyer = player, seller = self.npc)
             elif user_input.lower() == "b":
                 print("Here is what's available to sell: ")
-                self.trade(buyer = self.trader, seller = player)
+                self.trade(buyer = self.npc, seller = player)
             else:
                 print("Invalid choice!")
     
     def trade(self, buyer, seller):
-        for i, item in enumerate(seller.inventory, 1):
-            print("{}. {} - {}".format(i, item.name, item.value))
+        for i, item in enumerate(seller.trade_inventory, 1):
+            print("{}. {} - {} gold".format(i, item.name, item.value))
         
         while True:
             user_input = input("Choose an item or press Q to exit: ")
@@ -63,7 +63,9 @@ class MapTile:
             else:
                 try: 
                     choice = int(user_input)
-                    to_swap = seller.inventory[choice - 1]
+                    print(choice)
+                    to_swap = seller.trade_inventory[choice - 1]
+                    print(to_swap)
                     self.swap(seller, buyer, to_swap)
                 except ValueError:
                     print("Invalid choice!")
@@ -72,8 +74,8 @@ class MapTile:
         if item.value > buyer.gold:
             print("That's too expensive")
             return
-        seller.inventory.remove(item)
-        buyer.inventory.append(item)
+        seller.trade_inventory.remove(item)
+        buyer.trade_inventory.append(item)
         seller.gold += item.value
         buyer.gold -= item.value
         print("Trade complete!")

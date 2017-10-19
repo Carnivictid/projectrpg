@@ -12,7 +12,7 @@ class Enemy:
         return self.hp > 0
 
     def is_dead(self):
-        return self.hp < 0
+        return self.hp <= 0
 
     def attack_player(self, player):
         if self.is_alive():

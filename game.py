@@ -3,6 +3,19 @@ import playeractions
 from players import Player
 import world, os, time, sys, textwrap
 
+"""
+#TODO Features!
+
+* Trading
+* Clean up combat
+* Quests
+* Add a town
+* Make a real starting mission/area
+* make a long distance road
+* second town
+* drop tables
+* random encounters on the road
+"""
 
 def play():
     # The world itself is generated from the map.py module.
