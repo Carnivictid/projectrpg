@@ -22,6 +22,9 @@ def get_available_actions(room, player):
 	# ======= ATTACK COMMANDS ======= #
     if player.is_alive and room.is_dangerous:
         action_adder(actions, 'a', player.attack, "Attack")
+    # ======= TRADING COMMANDS ======= #
+    if player.is_alive and room.npc != None:
+        action_adder(actions, 't', player.trade, "Trade")
     return actions
 
 

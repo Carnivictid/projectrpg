@@ -3,6 +3,7 @@ import items
 import random
 import enemies
 #import cinematics
+import npc
 
 
 #========== Blank Maptile Class ==========#
@@ -13,6 +14,7 @@ class MapTile:
         self.round_count = 0
         self.is_dangerous = False
         self.enemy = []
+        self.npc = None
 
     def intro_text(self):
         raise NotImplementedError("Create a subclass instead")
@@ -34,8 +36,47 @@ class MapTile:
                 self.enemy.remove(monster)
         if len(self.enemy) <= 0:
             self.is_dangerous = False
-            
-		
+    
+    def check_if_trade(self, player):
+        while True:
+            print("Would you like to (B)uy, (S)ell, or (Q)uit?")
+            user_input = input()
+            if user_input.lower() == "q":
+                return
+            elif user_input.lower() == "b":
+                print("Here is what's available to buy: ")
+                self.trade(buyer = player, seller = self.trader)
+            elif user_input.lower() == "b":
+                print("Here is what's available to sell: ")
+                self.trade(buyer = self.trader, seller = player)
+            else:
+                print("Invalid choice!")
+    
+    def trade(self, buyer, seller):
+        for i, item in enumerate(seller.inventory, 1):
+            print("{}. {} - {}".format(i, item.name, item.value))
+        
+        while True:
+            user_input = input("Choose an item or press Q to exit: ")
+            if user_input.lower() == "q":
+                return
+            else:
+                try: 
+                    choice = int(user_input)
+                    to_swap = seller.inventory[choice - 1]
+                    self.swap(seller, buyer, to_swap)
+                except ValueError:
+                    print("Invalid choice!")
+                    
+    def swap(self, buyer, seller, item):
+        if item.value > buyer.gold:
+            print("That's too expensive")
+            return
+        seller.inventory.remove(item)
+        buyer.inventory.append(item)
+        seller.gold += item.value
+        buyer.gold -= item.value
+        print("Trade complete!")
 		
 #========== Starting tile for testing. ==========#
 class StartingTile(MapTile):
@@ -76,8 +117,7 @@ class EnemyTile(MapTile): #TODO Work on combat
     def __init__(self, x, y):
         super().__init__(x, y)
         self.is_dangerous = True
-        self.enemy = [enemies.LargeRat(),
-                      enemies.LargeRat()]
+        self.enemy = [enemies.LargeRat()]
         
     def intro_text(self):
         return """\n\nA monster is in this tile! Aaahhh!"""
@@ -87,5 +127,27 @@ class EnemyTile(MapTile): #TODO Work on combat
 
     def modify_player(self, player):
         self.enemy_attacks(player)
+        for i, monster in enumerate(self.enemy, 1):
+            if monster.is_dead():
+                enemy.remove(monster)
     
-    
+
+#========== Trader tile for testing. ==========#
+class TraderTile(MapTile):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.npc = npc.Trader()
+
+    def intro_text(self):
+        return """\nThere is a trader on this tile"""
+        
+    def title_text(self):
+        return """\nTraders don't like to be kept waiting."""
+
+
+
+
+
+
+
+

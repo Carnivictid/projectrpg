@@ -428,6 +428,9 @@ class Player:
         
         if self.exp >= exp_to_level:
             self.level_up()
-        
+            
+    def trade(self):
+        room = world.tile_at(self.x, self.y)
+        room.check_if_trade(self)
         
         
