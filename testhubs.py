@@ -113,7 +113,7 @@ class VictoryTile(MapTile):
 		
 		
 #========== Enemy tile for testing. ==========#		
-class EnemyTile(MapTile): #TODO Work on combat
+class EnemyTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.is_dangerous = True
