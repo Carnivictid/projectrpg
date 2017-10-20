@@ -46,14 +46,9 @@ class MapTile:
             elif user_input.lower() == "b":
                 print("Here is what's available to buy: ")
                 self.trade(buyer = player, seller = self.npc)
-                
-            #TODO Fix the inventory crap and make selling work!
-            """ 
             elif user_input.lower() == "s":
                 print("Here is what's available to sell: ")
                 self.trade(buyer = self.npc, seller = player)
-            """
-            
             else:
                 print("Invalid choice!")
     

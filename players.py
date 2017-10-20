@@ -431,6 +431,12 @@ class Player:
             self.level_up()
             
     def trade(self):
+        for item in self.arms_inventory:
+            self.trade_inventory.append(item)
+        for item in self.armor_inventory:
+            self.trade_inventory.append(item)
+        for item in self.item_inventory:
+            self.trade_inventory.append(item)
         room = world.tile_at(self.x, self.y)
         room.check_if_trade(self)
         
