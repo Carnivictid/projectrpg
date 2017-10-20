@@ -77,7 +77,6 @@ class Player:
         self.buff_status = False
         self.last_round = 0
         self.attack_actions = ['melee']
-        self.trade_inventory = []
 
     def __str__(self):
         return self.name
@@ -233,23 +232,27 @@ class Player:
             item_type = items.Shield
             
         equipable_items = [item for item in inventory 
-                           if isinstance(item, item_type)]
+                           if isinstance(item, item_type) and not isinstance(item, items.Fists)]
                            
-        if worn_item != None:
+        if worn_item != None and not isinstance(worn_item, items.Fists):
             print("U: Unequip worn {}".format(worn_item))
         
         for number, item in enumerate(equipable_items, 1):
             print("{}: Equip {}".format(number, item))
+        
+        print("\nC: Cancel")
             
         valid = False
         while not valid:
-            choice = input("Choice: ")
+            choice = input("\nChoice: ")
             if choice.lower() == "u":
                 print("\nYou remove the {}".format(worn_item))
-                inventory.append(worn_item)
+                
+                if (worn_item != None) or (worn_item not isinstance):
+                    inventory.append(worn_item)
                 
                 if type == "w":
-                    self.worn_weapon = None
+                    self.worn_weapon = items.Fists()
                 elif type == "a":
                     self.worn_armor = None
                 elif type == "s":
@@ -259,10 +262,13 @@ class Player:
                 valid = True
                 break
                 
+            if choice.lower() == "c":
+                return
+                
             try: 
                 to_equ = equipable_items[int(choice) - 1]
                 print("\nYou equip {}".format(to_equ))
-                if worn_item != None:
+                if worn_item != None or worn_item is not isinstance(worn_item, items.Fists):
                     inventory.append(worn_item)
                     
                 if type == "w":

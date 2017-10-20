@@ -14,7 +14,7 @@ import world, os, time, sys, textwrap
 * Make a real starting mission/area
 * make a long distance road
 * second town
-* drop tables
+* item drop tables
 * random encounters on the road
 * tighten up tiles. Make more superclasses to reduce maptile clutter.
 """
