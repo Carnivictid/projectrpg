@@ -6,7 +6,8 @@ import world, os, time, sys, textwrap
 """
 #TODO Features!
 
-* Trading
+* Trading (basics complete)
+* Allow players to see their stats (maybe as a help command)
 * Clean up combat
 * Quests
 * Add a town
@@ -15,6 +16,7 @@ import world, os, time, sys, textwrap
 * second town
 * drop tables
 * random encounters on the road
+* tighten up tiles. Make more superclasses to reduce maptile clutter.
 """
 
 def play():
