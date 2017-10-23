@@ -26,6 +26,7 @@ def play():
     # The player class is initialized.
     player = Player("You", 1)
     player.refresh_level()
+    player.level_up()
 
     # The game loop begins. Looks to see if the game has been won.
     while not player.victory and player.is_alive():

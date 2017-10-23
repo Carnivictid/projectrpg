@@ -15,6 +15,8 @@ class MapTile:
         self.is_dangerous = False
         self.enemy = []
         self.npc = None
+        self.dead_enemies = 0
+                
 
     def intro_text(self):
         raise NotImplementedError("Create a subclass instead")
@@ -31,6 +33,7 @@ class MapTile:
                     player.exp += monster.exp
                     print("The monster gives you {} exp!".format(monster.exp))
                     self.enemy.remove(monster)
+                    self.dead_enemies += 1
         for number, monster in enumerate(self.enemy, 1):
             if monster.is_dead():
                 self.enemy.remove(monster)
@@ -117,19 +120,31 @@ class EnemyTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.is_dangerous = True
-        self.enemy = [enemies.LargeRat()]
+        self.enemy = [enemies.SmallGoblin()]
+        self.reinforced = 0
         
     def intro_text(self):
-        return """\n\nA monster is in this tile! Aaahhh!"""
+        if len(self.enemy) > 0:
+            return """\nA goblin is in this tile! Aaahhh!"""
+        else:
+            return """\nlen(self.enemy) is greater than 0"""
     
     def title_text(self):
-        return """\nHere is the title text.\n"""
+        if self.dead_enemies == 0:
+            return """\nA gross goblin looks at you angrily."""
+        if self.dead_enemies > 0 and self.reinforced == 0:
+            self.enemy.append(enemies.SmallGoblin())
+            self.enemy.append(enemies.SmallGoblin())
+            self.reinforced = 1
+            self.is_dangerous = True
+            return """\nTwo more goblins appear out of nowhere and attack you!!!"""
+        else:
+            return """\nTitle_text"""
 
     def modify_player(self, player):
         self.enemy_attacks(player)
-        for i, monster in enumerate(self.enemy, 1):
-            if monster.is_dead():
-                enemy.remove(monster)
+        print("dead_enemies = {}, reinforced = {}".format(self.dead_enemies, self.reinforced))
+                
     
 
 #========== Trader tile for testing. ==========#
