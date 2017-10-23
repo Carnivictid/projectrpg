@@ -13,6 +13,6 @@ class Trader(NPC):
     def __init__(self):
         self.name = "Trader"
         self.gold = 100
-        self.trade_inventory = [items.LightHealingPotion(),
-                                items.LightHealingPotion(),
-                                items.LightHealingPotion()]
+        self.item_inventory = [items.LightHealingPotion(),
+                               items.LightHealingPotion(),
+                               items.LightHealingPotion()]

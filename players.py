@@ -23,7 +23,8 @@ class Player:
         self.player_class = classes.Fighter()
 
         # Item inventory for the player.
-        self.item_inventory = []
+        self.item_inventory = [items.LightHealingPotion(),
+                               items.LightHealingPotion()]
         self.map_inventory = []
         self.gold = 0
 
@@ -47,13 +48,10 @@ class Player:
         self.attack_bonus = self.bab + self.str_mod
         self.number_of_attacks = 0
 
-        # Weapon / Armor inventory for the player
-        self.arms_inventory = [items.Dagger()]
-        self.armor_inventory = []
-        
+        # Worn items and AC bonus
         self.worn_armor = items.PaddedArmor()
         self.worn_shield = items.BucklerShield()
-        self.worn_weapon = items.ShortSword()
+        self.worn_weapon = items.Dagger()
         self.ac_bonus = self.get_ac_bonus()
         
         # Armor Class and HP Stats
@@ -172,12 +170,27 @@ class Player:
         print("HP: {}/{} | AC: {}".format(self.hp, self.max_hp, self.ac))
         print("\nEquipped:\nWeapon: {}\nArmor: {}\nShield: {}".format(self.worn_weapon, self.worn_armor, self.worn_shield))
         print("\nBackpack:")
-        for item in self.armor_inventory:
-            print("* " + str(item))
-        for item in self.arms_inventory:
-            print("* " + str(item))
+        
         for item in self.item_inventory:
-            print("* " + str(item))
+            if isinstance(item, items.Weapon):
+                print("* " + str(item))
+        
+        for item in self.item_inventory:
+            if isinstance(item, items.Shield):
+                print("* " + str(item))
+                
+        for item in self.item_inventory:
+            if isinstance(item, items.Armor):
+                print("* " + str(item))
+        
+        for item in self.item_inventory:
+            if isinstance(item, items.Consumable):
+                print("* " + str(item))
+                
+        for item in self.item_inventory:
+            if isinstance(item, items.Item):
+                print("* " + str(item))
+
         print("="*16) 
         open = True
         while open:
@@ -202,6 +215,9 @@ class Player:
                 
             if action_input.lower() == "c":
                 open = False
+                
+            else:
+                print("\nThat is not a valid action, try again.")
 
     def swap_item_inv(self, item, from_inv, to_inv):
         try:
@@ -210,80 +226,71 @@ class Player:
             # add the item to the new inv
             to_inv.append(item)
         except:
-            print("There was an issue adding the item to your inv.")
-        
+            print("There was an issue adding the item to your inv.") 
 
     def equip(self, type):
+        # Temp containers to track if its a weapon, shield or armor.
         worn_item = None
-        inventory = None
         item_type = None
-    
-        if type == "w":
+        
+        if type == "w": # Getting the types for inventory parsing.
             worn_item = self.worn_weapon
-            inventory = self.arms_inventory
             item_type = items.Weapon
-        elif type == "a":
+        if type == "a":
             worn_item = self.worn_armor
-            inventory = self.armor_inventory
             item_type = items.Armor
-        elif type == "s":
+        if type == "s":
             worn_item = self.worn_shield
-            inventory = self.armor_inventory
             item_type = items.Shield
-            
-        equipable_items = [item for item in inventory 
-                           if isinstance(item, item_type) and not isinstance(item, items.Fists)]
-                           
-        if worn_item != None and not isinstance(worn_item, items.Fists):
+        
+        # creates a list of equipable items based on item type.
+        inventory = [item for item in self.item_inventory if isinstance(item, item_type)]
+        
+        if worn_item != None: # If you have an item equipped, you can unequip it.
             print("U: Unequip worn {}".format(worn_item))
-        
-        for number, item in enumerate(equipable_items, 1):
-            print("{}: Equip {}".format(number, item))
-        
-        print("\nC: Cancel")
             
+        for n, i in enumerate(inventory, 1): # Show the list of equipable items
+            print("{}: Equip {}".format(n, i))
+        
+        print("\nC: Cancel") # Cancel out if you misclick or whatever.
+        
         valid = False
         while not valid:
             choice = input("\nChoice: ")
-            if choice.lower() == "u":
-                print("\nYou remove the {}".format(worn_item))
-                
-                if (worn_item != None) or (worn_item not isinstance):
-                    inventory.append(worn_item)
-                
-                if type == "w":
-                    self.worn_weapon = items.Fists()
-                elif type == "a":
-                    self.worn_armor = None
-                elif type == "s":
-                    self.worn_shield = None
-                
-                self.refresh_ac_bonus()    
-                valid = True
-                break
-                
-            if choice.lower() == "c":
+            
+            if choice.lower() == "c": # cancels the equip function
                 return
                 
-            try: 
-                to_equ = equipable_items[int(choice) - 1]
-                print("\nYou equip {}".format(to_equ))
-                if worn_item != None or worn_item is not isinstance(worn_item, items.Fists):
-                    inventory.append(worn_item)
-                    
+            if choice.lower() == "u": # Unequip an item.
+                print("You remove the {}".format(worn_item))
+                if worn_item != None:
+                    self.item_inventory.append(worn_item)
+                    if type == "w":
+                        self.worn_weapon = None
+                    if type == "s":
+                        self.worn_shield = None
+                    if type == "a":
+                        self.worn_armor = None
+                    self.refresh_ac_bonus()
+                    valid = True
+                    break
+            try: # This trys to equip an item.
+                to_equ = inventory[int(choice) - 1] # Gets the item from the temp inv based on choice.
+                print("You equip {}!".format(to_equ))
+                
                 if type == "w":
                     self.worn_weapon = to_equ
-                elif type == "a":
+                if type == "a":
                     self.worn_armor = to_equ
-                elif type == "s":
+                if type == "s":
                     self.worn_shield = to_equ
                     
-                inventory.remove(to_equ)
+                self.item_inventory.remove(to_equ)
                 self.refresh_ac_bonus()
                 valid = True
-            except (ValueError, IndexError):
-                print("Invalid choice, try again.")            
-                
+            except (ValueError, IndexError): 
+                print("Invalid choice, try again!")
+
     def heal(self):
         healing_items = [item for item in self.item_inventory 
                          if isinstance(item, items.Consumable)]
