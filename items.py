@@ -8,7 +8,7 @@ class Weapon:
 
     def __str__(self):
         return "{}: {}D{} / {} x {} Crit".format(
-                self.name, self.dice_amount, self.dice_number, self.crit_range, self.crit_multi)
+                self.name, self.dice_count, self.dice_number, self.crit_range, self.crit_multi)
 
 
 class Armor:
@@ -48,7 +48,7 @@ class Item:
 class Fists(Weapon):
     def __init__(self):
         self.name = "Fists"
-        self.dice_amount = 1
+        self.dice_count = 1
         self.dice_number = 4
         self.crit_range = 20
         self.crit_multi = 2
@@ -57,7 +57,7 @@ class Fists(Weapon):
 class Dagger(Weapon):
     def __init__(self):
         self.name = "Dagger"
-        self.dice_amount = 1
+        self.dice_count = 1
         self.dice_number = 4
         self.crit_range = 19
         self.crit_multi = 2
@@ -67,7 +67,7 @@ class Dagger(Weapon):
 class ShortSword(Weapon):
     def __init__(self):
         self.name = "Short Sword"
-        self.dice_amount = 1
+        self.dice_count = 1
         self.dice_number = 6
         self.crit_range = 19
         self.crit_multi = 2
@@ -77,7 +77,7 @@ class ShortSword(Weapon):
 class Rapier(Weapon):
     def __init__(self):
         self.name = "Rapier"
-        self.dice_amount = 1
+        self.dice_count = 1
         self.dice_number = 6
         self.crit_range = 18
         self.crit_multi = 2
@@ -87,7 +87,7 @@ class Rapier(Weapon):
 class Longsword(Weapon):
     def __init__(self):
         self.name = "Longsword"
-        self.dice_amount = 1
+        self.dice_count = 1
         self.dice_number = 8
         self.crit_range = 19
         self.crit_multi = 2
@@ -97,7 +97,7 @@ class Longsword(Weapon):
 class DwarvenWarAxe(Weapon):
     def __init__(self):
         self.name = "Dwarven War Axe"
-        self.dice_amount = 1
+        self.dice_count = 1
         self.dice_number = 10
         self.crit_range = 20
         self.crit_multi = 3

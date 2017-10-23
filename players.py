@@ -314,7 +314,10 @@ class Player:
                 to_eat = healing_items[int(choice) - 1]
                 print("You heal {} points of damage".format(to_eat.healing_value))
                 
-                self.hp = max(self.max_hp, self.hp + to_eat.healing_value)
+                self.hp += to_eat.healing_value
+                if self.hp > self.max_hp:
+                    self.hp = self.max_hp
+                    
                 self.item_inventory.remove(to_eat)
                 valid = True
             except (ValueError, IndexError):
@@ -374,7 +377,64 @@ class Player:
         else:
             print("Something went wrong, you can't call an attack with no enemies in the room")
 
-    def melee_attack(self, target, **kwargs):
+    def melee_attack(self, target):
+        #VARS:
+        ab = self.attack_bonus
+        sb = self.str_mod
+        noa = self.generate_number_of_attacks(self.bab)
+        critm = self.worn_weapon.crit_multi if self.worn_weapon != None else 2
+        critr = self.worn_weapon.crit_range if self.worn_weapon != None else 20
+        wdc = self.worn_weapon.dice_count
+        wdn = self.worn_weapon.dice_number
+        e_ac = target.ac
+        
+        
+        #check crit
+        for num in range(noa):
+            crit = False
+            hit = False
+            if target.is_alive():
+                d20 = random.randint(1, 20)
+                if d20 >= critr and random.randint(1, 20)+ab >= e_ac:
+                    hit = True
+                    crit = True
+                    print("You attack {}. You rolled {} ({} + {}), Critical hit confirmed!".format(target, (d20+ab), d20, ab))
+                        
+                elif d20+ab >= e_ac:
+                    hit = True
+                    print("You attack {}. You rolled {} ({} + {}), it hits!".format(target, (d20+ab), d20, ab))
+                    
+                if hit: 
+                    damage = sb
+                    for dice in range(wdc):
+                        damage += random.randint(1, wdn)
+                    if crit:
+                        damage = damage * critm
+                        
+                    target.hp -= damage
+                    print("You dealt {} damage to {}".format(damage, target))
+                    
+                if target.is_dead():
+                    print("{} has died!".format(target))
+                    
+                if not hit:
+                    print("You attack {}. You rolled {} ({} + {}), it missed!".format(target, (d20+ab), d20, ab))
+            ab -= 5
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    """
         critical = 1
         ensure_hit = 0
         
@@ -428,7 +488,7 @@ class Player:
                 ensure_hit = 0
             else:
                 # The target was dead when attacked.
-                print("Target has died.")
+                print("Target has died.")"""
             
     def check_weight(self):
         pass
