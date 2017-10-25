@@ -15,7 +15,6 @@ class MapTile:
         self.is_dangerous = False
         self.enemy = []
         self.npc = None
-        self.dead_enemies = 0
                 
 
     def intro_text(self):
@@ -31,9 +30,8 @@ class MapTile:
                     monster.attack_player(player)
                 elif monster.is_dead():
                     player.exp += monster.exp
-                    print("The monster gives you {} exp!".format(monster.exp))
+                    print("\nThe monster gives you {} exp!".format(monster.exp))
                     self.enemy.remove(monster)
-                    self.dead_enemies += 1
         for number, monster in enumerate(self.enemy, 1):
             if monster.is_dead():
                 self.enemy.remove(monster)
@@ -42,45 +40,45 @@ class MapTile:
     
     def check_if_trade(self, player):
         while True:
-            print("Would you like to (B)uy, (S)ell, or (Q)uit?")
+            print("\nWould you like to (B)uy, (S)ell, or (Q)uit?")
             user_input = input()
             if user_input.lower() == "q":
                 return
             elif user_input.lower() == "b":
-                print("Here is what's available to buy: ")
+                print("\nHere is what's available to buy: ")
                 self.trade(buyer = player, seller = self.npc)
             elif user_input.lower() == "s":
-                print("Here is what's available to sell: ")
+                print("\nHere is what's available to sell: ")
                 self.trade(buyer = self.npc, seller = player)
             else:
                 print("Invalid choice!")
     
-    def trade(self, buyer, seller):
-        for i, item in enumerate(seller.trade_inventory, 1):
-            print("{}. {} - {} gold".format(i, item.name, item.value))
-        
+    def trade(self, buyer, seller):       
         while True:
+            for i, item in enumerate(seller.item_inventory, 1):
+                print("{}. {} - {} gold".format(i, item.name, item.value))
             user_input = input("Choose an item or press Q to exit: ")
             if user_input.lower() == "q":
                 return
             else:
                 try: 
                     choice = int(user_input)
-                    to_swap = seller.trade_inventory[choice - 1]
+                    to_swap = seller.item_inventory[choice - 1]
                     self.swap(buyer, seller, to_swap)
                 except ValueError:
                     print("Invalid choice!")
                     
     def swap(self, buyer, seller, item):
         if item.value > buyer.gold:
-            print("That's too expensive")
+            print("That's too expensive\n")
             return
-        seller.trade_inventory.remove(item)
-        buyer.trade_inventory.append(item)
+        seller.item_inventory.remove(item)
+        buyer.item_inventory.append(item)
         seller.gold += item.value
         buyer.gold -= item.value
-        print("Trade complete!")
+        print("Trade complete!\n")
 		
+        
 #========== Starting tile for testing. ==========#
 class StartingTile(MapTile):
     def __init__(self, x, y):
@@ -106,10 +104,10 @@ class VictoryTile(MapTile):
 		super().__init__(x, y)
 
 	def intro_text(self):
-		return """\n\nYou see a bright light in the distance...\n... it grows as you get closer! It's sunlight!\n\nVictory is yours!"""
+		return """\n\nYou see a bright light in the distance...\n... it grows as you get closer! It's sunlight!"""
 		
 	def title_text(self):
-		return """\nHere is the title text.\n"""
+		return """\nVictory is yours!\n"""
 
 	def modify_player(self, player):
 		player.victory = True		
@@ -120,32 +118,18 @@ class EnemyTile(MapTile):
     def __init__(self, x, y):
         super().__init__(x, y)
         self.is_dangerous = True
-        self.enemy = [enemies.SmallGoblin()]
+        self.enemy = [enemies.LargeRat()]
         self.reinforced = 0
         
     def intro_text(self):
-        if len(self.enemy) > 0:
-            return """\nA goblin is in this tile! Aaahhh!"""
-        else:
-            return """\nlen(self.enemy) is greater than 0"""
+        return """\nThis is the intro_text!"""
     
     def title_text(self):
-        if self.dead_enemies == 0:
-            return """\nA gross goblin looks at you angrily."""
-        if self.dead_enemies > 0 and self.reinforced == 0:
-            self.enemy.append(enemies.SmallGoblin())
-            self.enemy.append(enemies.SmallGoblin())
-            self.reinforced = 1
-            self.is_dangerous = True
-            return """\nTwo more goblins appear out of nowhere and attack you!!!"""
-        else:
-            return """\nTitle_text"""
+        return """\nThis is the title_text!"""
 
     def modify_player(self, player):
         self.enemy_attacks(player)
-        print("dead_enemies = {}, reinforced = {}".format(self.dead_enemies, self.reinforced))
-                
-    
+        
 
 #========== Trader tile for testing. ==========#
 class TraderTile(MapTile):

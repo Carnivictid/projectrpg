@@ -23,8 +23,7 @@ class Player:
         self.player_class = classes.Fighter()
 
         # Item inventory for the player.
-        self.item_inventory = [items.LightHealingPotion(),
-                               items.LightHealingPotion()]
+        self.item_inventory = [items.ChainShirt()]
         self.map_inventory = []
         self.gold = 0
 
@@ -49,9 +48,9 @@ class Player:
         self.number_of_attacks = 0
 
         # Worn items and AC bonus
-        self.worn_armor = items.PaddedArmor()
-        self.worn_shield = items.BucklerShield()
-        self.worn_weapon = items.Dagger()
+        self.worn_armor = None
+        self.worn_shield = None
+        self.worn_weapon = None
         self.ac_bonus = self.get_ac_bonus()
         
         # Armor Class and HP Stats
@@ -201,20 +200,21 @@ class Player:
                 self.equip("w")
                 open = False
                 
-            if action_input.lower() == "a":
+            elif action_input.lower() == "a":
                 self.equip("a")
                 open = False
                 
-            if action_input.lower() == "s":
+            elif action_input.lower() == "s":
                 self.equip("s")
                 open = False
                 
-            if action_input.lower() == "h":
+            elif action_input.lower() == "h":
                 self.heal()
                 open = False
                 
-            if action_input.lower() == "c":
-                open = False
+            elif action_input.lower() == "c":
+                return
+                
                 
             else:
                 print("\nThat is not a valid action, try again.")
@@ -384,8 +384,8 @@ class Player:
         noa = self.generate_number_of_attacks(self.bab)
         critm = self.worn_weapon.crit_multi if self.worn_weapon != None else 2
         critr = self.worn_weapon.crit_range if self.worn_weapon != None else 20
-        wdc = self.worn_weapon.dice_count
-        wdn = self.worn_weapon.dice_number
+        wdc = self.worn_weapon.dice_count if self.worn_weapon != None else 1
+        wdn = self.worn_weapon.dice_number if self.worn_weapon != None else 4
         e_ac = target.ac
         
         
@@ -420,75 +420,7 @@ class Player:
                 if not hit:
                     print("You attack {}. You rolled {} ({} + {}), it missed!".format(target, (d20+ab), d20, ab))
             ab -= 5
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    """
-        critical = 1
-        ensure_hit = 0
-        
-        # A standard attack. Accounts for number of attacks.
-        print("\n{} attack {}".format(self.name, target))
-        
-        # temp_attack_bonus is drained by 5 for each attack.
-        temp_attack_bonus = self.attack_bonus
-        
-        for attacks in range(self.number_of_attacks):
-            if target.is_alive():
-                # Rolling the D20
-                r20 = random.randint(1, 20)
-                
-                # Checking to see if the roll was a critial threat.
-                if r20 >= self.worn_weapon.crit_range:
-                
-                    # Now rolling to confirm the critical
-                    check_r20 = random.randint(1, 20) + self.str_mod
-                    
-                    # Checking if critical is confirmed.
-                    if check_r20 >= target.ac:
-                    
-                        # Sets some variables to ensure correct damage.
-                        print("Critical Hit!")
-                        critical = self.worn_weapon.crit_multi
-                        ensure_hit = 100
-                
-                # Adding remaining Base Attack and str mod.
-                total_roll = r20 + (temp_attack_bonus - (5 * attacks)) + ensure_hit
-                print("Rolled: ({} + {}) {}".format(r20, (temp_attack_bonus - (5 * attacks)), total_roll - ensure_hit))
-                
-                # comparing the total roll with the enemy's AC.
-                if total_roll >= target.ac:
-                    
-                    # Counting damage dice and rolling each one.
-                    damage_rolls = 0
-                    for dice in range(self.worn_weapon.dice_amount):
-                        damage_rolls += random.randint(1, self.worn_weapon.dice_number)
-                        
-                    # Adding damage and modifiers. 
-                    total_damage = (damage_rolls + self.str_mod) * critical
-                    target.hp -= total_damage
-                    print("{} did {} damage to {}.".format(self.name, total_damage, target))
-                    
-                    if target.hp <= 0:
-                        print("{} killed {}!".format(self.name, target))
-                        
-                # resetting the critical hit variables so nothing wonky happens for multi attacks.
-                critical = 1
-                ensure_hit = 0
-            else:
-                # The target was dead when attacked.
-                print("Target has died.")"""
+
             
     def check_weight(self):
         pass
@@ -504,12 +436,6 @@ class Player:
             self.level_up()
             
     def trade(self):
-        for item in self.arms_inventory:
-            self.trade_inventory.append(item)
-        for item in self.armor_inventory:
-            self.trade_inventory.append(item)
-        for item in self.item_inventory:
-            self.trade_inventory.append(item)
         room = world.tile_at(self.x, self.y)
         room.check_if_trade(self)
         
