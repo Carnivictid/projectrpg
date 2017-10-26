@@ -15,6 +15,7 @@ tile_type_dict = {"STT": STARTING_TILE,
                   "VYT": VICTORY_TILE,
                   "ENT": testhubs.EnemyTile,
                   "TRT": testhubs.TraderTile,
+                  "QGT": testhubs.QuestTile,
                   "   ": None}
 
 				  

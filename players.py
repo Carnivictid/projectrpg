@@ -438,5 +438,8 @@ class Player:
     def trade(self):
         room = world.tile_at(self.x, self.y)
         room.check_if_trade(self)
-        
+    
+    def talk(self):
+        room = world.tile_at(self.x, self.y)
+        print("\nYou try and talk to {}, but he is ignoring you.".format(room.npc))
         

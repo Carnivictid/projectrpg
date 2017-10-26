@@ -1,4 +1,5 @@
 import items
+import quests
 
 
 class NPC():
@@ -16,3 +17,10 @@ class Trader(NPC):
         self.item_inventory = [items.LightHealingPotion(),
                                items.LightHealingPotion(),
                                items.LightHealingPotion()]
+
+
+class QuestGiver(NPC):
+    def __init__(self):
+        self.name = "Quest Giver"
+        self.gold = 100
+        self.quest = quests.NoobQuest()

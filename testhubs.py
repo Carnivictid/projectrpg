@@ -144,8 +144,17 @@ class TraderTile(MapTile):
         return """\nTraders don't like to be kept waiting."""
 
 
-
-
+#========== Quest tile for testing. ==========#
+class QuestTile(MapTile):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.npc = npc.QuestGiver()
+        
+    def intro_text(self):
+        return """\nThere is a guy here who looks like he wants to talk."""
+        
+    def title_text(self):
+        return """\nMaybe you should talk to him."""
 
 
 
