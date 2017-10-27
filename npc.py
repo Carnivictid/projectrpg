@@ -3,24 +3,52 @@ import quests
 
 
 class NPC():
-    def __init__(self):
-        raise NotImplementedError("Do not create raw NPC objects")
-        
-    def __str__(self):
-        return self.name
-        
-        
+	def __init__(self):
+		raise NotImplementedError("Do not create raw NPC objects")
+		
+	def __str__(self):
+		return self.name
+		
+		
 class Trader(NPC):
-    def __init__(self):
-        self.name = "Trader"
-        self.gold = 100
-        self.item_inventory = [items.LightHealingPotion(),
-                               items.LightHealingPotion(),
-                               items.LightHealingPotion()]
+	def __init__(self):
+		self.name = "Trader"
+		self.gold = 100
+		self.item_inventory = [items.LightHealingPotion(),
+							   items.LightHealingPotion(),
+							   items.LightHealingPotion()]
 
 
 class QuestGiver(NPC):
-    def __init__(self):
-        self.name = "Quest Giver"
-        self.gold = 100
-        self.quest = quests.NoobQuest()
+	def __init__(self):
+		self.name = "Quest Giver"
+		self.gold = 100
+		
+	def talk_npc(self, player):
+		if player.get_quest(quests.NoobQuest).quest_status == 0 and player.get_quest(quests.NoobQuest).complete is not True:
+			print("Can you kill the rat to the southeast for me? Ill reward you.")
+			while True:
+				choice = input("(y)es or (n)o: ")
+				if choice.lower() == "n":
+					print("Fine. Leave me be.")
+					return
+				elif choice.lower() == "y":
+					print("Thank you! Come back when it is done.")
+					player.get_quest(quests.NoobQuest).quest_status = 1
+					return
+				else:
+					print("Invalid choice, try again.")
+		elif player.get_quest(quests.NoobQuest).quest_status == 1 and player.get_quest(quests.NoobQuest).complete is not True:
+			print("Have you finished your task? Please, there is a good reward in it for you.")
+		elif player.get_quest(quests.NoobQuest).quest_status == 2 and player.get_quest(quests.NoobQuest).complete is not True:
+			print("Thank you so much for killing that beast! Here is your reward!")
+			player.get_quest(quests.NoobQuest).give_reward(player)
+			player.get_quest(quests.NoobQuest).complete = True
+		elif player.get_quest(quests.NoobQuest).quest_status == 3 and player.get_quest(quests.NoobQuest).complete is not True:	
+			print("I was going to ask you to kill the rat to the southeast...")
+			print("But it looks like you did that already.")
+			print("I will still give you the reward. Thank you!")
+			player.get_quest(quests.NoobQuest).give_reward(player)
+			player.get_quest(quests.NoobQuest).complete = True
+		elif player.get_quest(quests.NoobQuest).complete:
+			print("Thank you again for your assistance")
