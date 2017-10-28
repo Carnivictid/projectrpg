@@ -63,6 +63,16 @@ class Dagger(Weapon):
 		self.crit_multi = 2
 		self.value = 2
 
+		
+class RustySword(Weapon):
+	def __init__(self):
+		self.name = "Rusty Sword"
+		self.dice_count = 1
+		self.dice_number = 5
+		self.crit_range = 20
+		self.crit_multi = 2
+		self.value = 0
+		
 
 class ShortSword(Weapon):
 	def __init__(self):

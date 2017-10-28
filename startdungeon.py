@@ -22,12 +22,28 @@ class StartDungeon1(MapTile): # tile_dict name: SD1
 		super().__init__(x, y)
 
 	def intro_text(self):
-		return """\nHere is the intro_text.\n"""
+		if self.round_count == 0:
+			return """\nYou feel the soft, cold ground beneath you, but it's too dark to see.
+You realize quickly that this is because your eyes are closed.
+You open your eyes, and the dim light reminds you of a sharp 
+pain in your head. You are on the ground, your head pounding. 
+You sit up and look around. You appear to be in a sewer.\n"""
+		else:
+			return """\nYou see the grate to the south. The sewer continues north.\n"""
 		
 	def title_text(self):
-		return """\nHere is the title_text.\n"""
+		if self.round_count == 0:
+			return """\nYou stand up, and pick up your small backpack. You look behind you, to the 
+south, and see the sewer is blocked off by a grate. You notice something
+shining in the muck behind the bars. You reach through and try to grab
+it. You pull it free and it makes a wet sucking noise. Its a rusty sword.
+You put it in your bag.\n"""
+		else:
+			return """\nYou should press onward.\n"""
 		
 	def modify_player(self, player):
+		if self.round_count == 0:
+			player.item_inventory.append(items.RustySword())
 		self.round_count += 1
 
 		
@@ -35,6 +51,8 @@ class StartDungeon1(MapTile): # tile_dict name: SD1
 class StartDungeon2(MapTile): # tile_dict name: SD2
 	def __init__(self, x, y):
 		super().__init__(x, y)
+		self.enemy = [enemies.LargeRat()]
+		self.is_dangerous = True
 
 	def intro_text(self):
 		return """\nHere is the intro_text.\n"""
@@ -43,6 +61,7 @@ class StartDungeon2(MapTile): # tile_dict name: SD2
 		return """\nHere is the title_text.\n"""
 		
 	def modify_player(self, player):
+		self.enemy_attacks(player)
 		self.round_count += 1
 
 		

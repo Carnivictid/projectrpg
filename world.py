@@ -1,12 +1,13 @@
 import map
 import testhubs
+import startdungeon
 
 
 world_dsl = map.map
 world_map = []
 start_tile_location = None
 
-STARTING_TILE = testhubs.StartingTile
+STARTING_TILE = startdungeon.StartDungeon1 #testhubs.StartingTile
 VICTORY_TILE = testhubs.VictoryTile
 
 # Could change this to a new file alltogether. 
@@ -16,6 +17,12 @@ tile_type_dict = {"STT": STARTING_TILE,
 				  "ENT": testhubs.EnemyTile,
 				  "TRT": testhubs.TraderTile,
 				  "QGT": testhubs.QuestTile,
+				  "SD1": startdungeon.StartDungeon1,
+				  "SD2": startdungeon.StartDungeon2,
+				  "S2B": startdungeon.StartDungeon2b,
+				  "SD3": startdungeon.StartDungeon3,
+				  "S3B": startdungeon.StartDungeon3b,
+				  "SD4": startdungeon.StartDungeon4,
 				  "   ": None}
 
 				  

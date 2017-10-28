@@ -25,7 +25,7 @@ class Player:
 		self.player_class = classes.Fighter()
 
 		# Item inventory for the player.
-		self.item_inventory = [items.ChainShirt()]
+		self.item_inventory = []
 		self.map_inventory = []
 		self.gold = 0
 
