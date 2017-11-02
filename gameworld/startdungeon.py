@@ -3,17 +3,9 @@ import random
 import enemies
 import npc
 import quests
-from testhubs import MapTile
+from .testhubs import MapTile
+#from testhubs import MapTile
 
-
-"""
-|   |   |   |   |
-|   |SD4|   |   |
-|   |SD3|S3B|   |
-|S2B|SD2|   |   |
-|   |SD1|   |   |
-|   |   |   |   |
-"""
 
 #========== Start Dungeon! ==========#
 # StartDungeon1  SD1 - start

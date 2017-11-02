@@ -1,5 +1,8 @@
-import world, testhubs, npc
+import npc
+import world
 from collections import OrderedDict
+from gameworld import testhubs
+from gameworld import startdungeon
 
 
 def get_available_actions(room, player):

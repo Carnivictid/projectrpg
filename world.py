@@ -1,13 +1,15 @@
 import map
-import testhubs
-import startdungeon
+from gameworld import testhubs
+from gameworld import startdungeon
+#import .gameworld.testhubs
+#import .gameworld.startdungeon
 
 
 world_dsl = map.map
 world_map = []
 start_tile_location = None
 
-STARTING_TILE = startdungeon.StartDungeon1 #testhubs.StartingTile
+STARTING_TILE = testhubs.StartingTile #startdungeon.StartDungeon1
 VICTORY_TILE = testhubs.VictoryTile
 
 # Could change this to a new file alltogether. 
