@@ -1,6 +1,7 @@
 import map
 from gameworld import testhubs
 from gameworld import startdungeon
+from gameworld import starttown
 #import .gameworld.testhubs
 #import .gameworld.startdungeon
 
@@ -9,7 +10,7 @@ world_dsl = map.map
 world_map = []
 start_tile_location = None
 
-STARTING_TILE = testhubs.StartingTile #startdungeon.StartDungeon1
+STARTING_TILE = startdungeon.StartDungeon1 #testhubs.StartingTile
 VICTORY_TILE = testhubs.VictoryTile
 
 # Could change this to a new file alltogether. 
@@ -25,6 +26,23 @@ tile_type_dict = {"STT": STARTING_TILE,
 				  "SD3": startdungeon.StartDungeon3,
 				  "S3B": startdungeon.StartDungeon3b,
 				  "SD4": startdungeon.StartDungeon4,
+				  "MC1": starttown.MaencarCoasts1,
+				  "MC2": starttown.MaencarCoasts2,
+				  "MC3": starttown.MaencarCoasts3,
+				  "MC4": starttown.MaencarCoasts4,
+				  "MC5": starttown.MaencarCoasts5,
+				  "MC6": starttown.MaencarCoasts6,
+				  "MC7": starttown.MaencarCoasts7,
+				  "MC8": starttown.MaencarCoasts8,
+				  "MC9": starttown.MaencarCoasts9,
+				  "MCD": starttown.MaencarDock,
+				  "WH1": starttown.Warehouse1,
+				  "WH2": starttown.Warehouse2,
+				  "WH3": starttown.Warehouse3,
+				  "WH4": starttown.Warehouse4,
+				  "WH5": starttown.Warehouse5,
+				  "WH6": starttown.Warehouse6,
+				  "WH7": starttown.Warehouse7,
 				  "   ": None}
 
 				  

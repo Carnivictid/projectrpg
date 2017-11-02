@@ -1,5 +1,5 @@
 import random
-
+from ctxt import *
 
 class Enemy:
 	def __init__(self):
@@ -21,9 +21,9 @@ class Enemy:
 			damage_roll = random.randint(1, self.damage) + self.str
 			if roll >= player.ac:
 				player.hp -= damage_roll
-				print("{} takes {} damage. {} HP remaining.".format(player.name, damage_roll, player.hp))
+				atkprint("{} take {} damage. {} HP remaining.".format(player.name, damage_roll, player.hp))
 			else:
-				print("{}'s attack misses {}!".format(self, player.name))
+				missprint("{}'s attack misses {}!".format(self, player.name))
 		else:
 			print("Something broke. A dead enemy should not have called attack_player(self, player, number)")
 

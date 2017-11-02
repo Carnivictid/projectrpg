@@ -4,6 +4,7 @@ import random, os
 import enemies
 import classes
 import quests
+from ctxt import *
 
 
 class Player:
@@ -414,13 +415,13 @@ class Player:
 						damage = damage * critm
 						
 					target.hp -= damage
-					print("You dealt {} damage to {}".format(damage, target))
+					atkprint("You dealt {} damage to {}".format(damage, target))
 					
 				if target.is_dead():
 					print("{} has died!".format(target))
 					
 				if not hit:
-					print("You attack {}. You rolled {} ({} + {}), it missed!".format(target, (d20+ab), d20, ab))
+					missprint("You attack {}. You rolled {} ({} + {}), it missed!".format(target, (d20+ab), d20, ab))
 			ab -= 5
 
 			

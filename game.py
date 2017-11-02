@@ -2,7 +2,8 @@ from collections import OrderedDict
 import playeractions
 from players import Player
 import world, os, time, sys, textwrap
-
+import colorama
+from colorama import Fore, Back, Style
 
 """
 #TODO Features!
@@ -21,6 +22,9 @@ import world, os, time, sys, textwrap
 """
 
 def play():
+	# Initialize colored text.
+	colorama.init()
+	
 	# The world itself is generated from the map.py module.
 	world.parse_world_dsl()
 	
