@@ -90,17 +90,18 @@ def choose_action(room, player):
 		# Now begins the fully typed commands.
 		elif action_input == 'help':
 			print("\nThere are several commands you can use at any time! Be careful, they take 1 round.")
-			print("\nCommands:")
-			print("\nwait: waits for 1 round.")
-			print("\nparty: opens the party management window.")
-			print("\nmore commands comming soon.")
-			print("\n")
+			print("Commands:")
+			print("wait: waits for 1 round.")
+			print("party: opens the party management window.")
+			print("quests: shows the quest list")
+			print(nmore commands comming soon.")
 		elif action_input == 'party':
 			print("\nThis command is a work in progress. Sorry!")
 			break
 		elif action_input == 'wait':
 			print("\nYou wait for one round.")
 			break
+		elif action_input == 'quests'
 		else:
 			print("""
 		Invalid action!

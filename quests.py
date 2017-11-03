@@ -37,12 +37,19 @@ class Quest:
 class NoobQuest(Quest):
 	def __init__(self):
 		self.quest_status = 0
-		self.quest_name = "NoobQuest!"
+		self.quest_name = "Kill the Rat!"
 		self.reward_gold = 250
 		self.reward_exp = 500
 		self.reward_item = [items.Longsword()]
+		self.quest_log = set([])
 		self.complete = False
 	
 	
+	def print_quest_log(self):
+		print("Quest: {}".format(self.quest_name))
+		for log in self.quest_log:
+			print(log)
 
-
+	def update_log(self, quest_log_text):
+		if self.quest_status == 3:
+			self.quest_log.add(quest_log_text)

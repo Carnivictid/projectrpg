@@ -132,6 +132,7 @@ class EnemyTile(MapTile):
 		if len(self.enemy) <= 0: # you are given the quest if you complete the task anyways.
 			if player.get_quest(quests.NoobQuest).quest_status == 0: #if you didn't take the quest, you get an alternate ending.
 				player.get_quest(quests.NoobQuest).quest_status = 3
+				player.get_quest(quests.NoobQuest).update_quest_log("There was something unusual about this rat...")
 			else:
 				player.get_quest(quests.NoobQuest).quest_status = 2
 
