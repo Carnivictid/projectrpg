@@ -16,7 +16,7 @@ class Enemy:
 
 	def attack_player(self, player):
 		if self.is_alive(): 
-			print("\n{} attacks {}.".format(self.name, player), end=' ') # refactor for linux. end=" " doesn't work
+			print("\n{} attacks {}.".format(self.name, player))
 			roll = random.randint(1, 20) + self.ab + self.str
 			damage_roll = random.randint(1, self.damage) + self.str
 			if roll >= player.ac:

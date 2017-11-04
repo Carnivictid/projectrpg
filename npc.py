@@ -25,7 +25,7 @@ class QuestGiver(NPC):
 		self.gold = 100
 		
 	def talk_npc(self, player):
-		if player.get_quest(quests.NoobQuest).quest_status == 0 and player.get_quest(quests.NoobQuest).complete is not True:
+		if player.get_quest(quests.NoobQuest) is None:
 			print("Can you kill the rat to the southeast for me? Ill reward you.")
 			while True:
 				choice = input("(y)es or (n)o: ")
@@ -34,7 +34,10 @@ class QuestGiver(NPC):
 					return
 				elif choice.lower() == "y":
 					print("Thank you! Come back when it is done.")
+					if player.get_quest(quests.NoobQuest) == None:
+						player.quest_list.append(quests.NoobQuest())
 					player.get_quest(quests.NoobQuest).quest_status = 1
+					player.get_quest(quests.NoobQuest).update_quest_log("An old man wants me to kill a rat. Why not. Its to his southeast")
 					return
 				else:
 					print("Invalid choice, try again.")
@@ -44,11 +47,22 @@ class QuestGiver(NPC):
 			print("Thank you so much for killing that beast! Here is your reward!")
 			player.get_quest(quests.NoobQuest).give_reward(player)
 			player.get_quest(quests.NoobQuest).complete = True
+			player.get_quest(quests.NoobQuest).update_quest_log("I killed the rat and the old man gave me 250 gold and a sword!")
 		elif player.get_quest(quests.NoobQuest).quest_status == 3 and player.get_quest(quests.NoobQuest).complete is not True:	
 			print("I was going to ask you to kill the rat to the southeast...")
 			print("But it looks like you did that already.")
 			print("I will still give you the reward. Thank you!")
 			player.get_quest(quests.NoobQuest).give_reward(player)
 			player.get_quest(quests.NoobQuest).complete = True
+			player.get_quest(quests.NoobQuest).update_quest_log("It turns out an old man wanted that rat dead. He gave me 250 gold and a sword!")
 		elif player.get_quest(quests.NoobQuest).complete:
 			print("Thank you again for your assistance")
+			
+			
+			
+			
+			
+			
+			
+			
+			

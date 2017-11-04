@@ -398,14 +398,15 @@ class Player:
 			hit = False
 			if target.is_alive():
 				d20 = random.randint(1, 20)
+				print("You attack {}. You rolled {} ({} + {})".format(target, (d20+ab), d20, ab), end=". ")
 				if d20 >= critr and random.randint(1, 20)+ab >= e_ac:
 					hit = True
 					crit = True
-					print("You attack {}. You rolled {} ({} + {}), Critical hit confirmed!".format(target, (d20+ab), d20, ab))
+					print("Critical hit confirmed!")
 						
 				elif d20+ab >= e_ac:
 					hit = True
-					print("You attack {}. You rolled {} ({} + {}), it hits!".format(target, (d20+ab), d20, ab))
+					print("The attack hits!")
 					
 				if hit: 
 					damage = sb
@@ -419,9 +420,11 @@ class Player:
 					
 				if target.is_dead():
 					print("{} has died!".format(target))
-					
+					self.exp += target.exp
+					print("The monster gives you", end=" ") 
+					expprint("{} exp!".format(target.exp))
 				if not hit:
-					missprint("You attack {}. You rolled {} ({} + {}), it missed!".format(target, (d20+ab), d20, ab))
+					missprint("\nThe attack missed!")
 			ab -= 5
 
 			

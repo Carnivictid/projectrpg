@@ -94,14 +94,16 @@ def choose_action(room, player):
 			print("wait: waits for 1 round.")
 			print("party: opens the party management window.")
 			print("quests: shows the quest list")
-			print(nmore commands comming soon.")
+			print("more commands comming soon.")
 		elif action_input == 'party':
 			print("\nThis command is a work in progress. Sorry!")
 			break
 		elif action_input == 'wait':
 			print("\nYou wait for one round.")
 			break
-		elif action_input == 'quests'
+		elif action_input == 'quests':
+			for quest in player.quest_list:
+				quest.print_quest_log()
 		else:
 			print("""
 		Invalid action!

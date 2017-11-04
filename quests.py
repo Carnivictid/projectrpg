@@ -41,15 +41,14 @@ class NoobQuest(Quest):
 		self.reward_gold = 250
 		self.reward_exp = 500
 		self.reward_item = [items.Longsword()]
-		self.quest_log = set([])
+		self.quest_log = []
 		self.complete = False
 	
 	
 	def print_quest_log(self):
 		print("Quest: {}".format(self.quest_name))
-		for log in self.quest_log:
-			print(log)
+		for n, q in enumerate(self.quest_log, 1):
+			print("{}: {}".format(n, q))
 
-	def update_log(self, quest_log_text):
-		if self.quest_status == 3:
-			self.quest_log.add(quest_log_text)
+	def update_quest_log(self, quest_log_text):
+		self.quest_log.append(quest_log_text)

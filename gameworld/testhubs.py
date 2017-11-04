@@ -28,8 +28,6 @@ class MapTile:
 				if monster.is_alive():
 					monster.attack_player(player)
 				elif monster.is_dead():
-					player.exp += monster.exp
-					print("\nThe monster gives you {} exp!".format(monster.exp))
 					self.enemy.remove(monster)
 		for number, monster in enumerate(self.enemy, 1):
 			if monster.is_dead():
@@ -135,6 +133,7 @@ class EnemyTile(MapTile):
 				player.get_quest(quests.NoobQuest).update_quest_log("There was something unusual about this rat...")
 			else:
 				player.get_quest(quests.NoobQuest).quest_status = 2
+				player.get_quest(quests.NoobQuest).update_quest_log("The rat is dead, I should talk to the old man.")
 
 #========== Trader tile for testing. ==========#
 class TraderTile(MapTile):
@@ -162,8 +161,7 @@ class QuestTile(MapTile):
 		return """\nMaybe you should talk to him."""
 
 	def modify_player(self, player): # when you enter the tile, it gives you the quest.
-		if player.get_quest(quests.NoobQuest) == None:
-			player.quest_list.append(quests.NoobQuest())
+		self.round_count += 1
 		
 	def talk(self, player):
 		self.npc.talk_npc(player)
