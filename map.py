@@ -7,7 +7,7 @@
 |   |   |   |   |
 """
 
-map = """
+"""map = 
 |   |   |   |   |
 |   |QGT|   |   |
 |   |STT|ENT|VYT|
@@ -15,7 +15,7 @@ map = """
 |   |   |   |   |
 """
 
-"""map = 
+map = """
 |   |   |MC9|   |WH2|   |WH5|
 |MCD|MC7|MC6|MC8|WH1|WH3|WH4|
 |   |   |MC5|   |   |   |WH6|

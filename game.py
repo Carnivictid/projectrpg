@@ -79,10 +79,11 @@ def play():
 def choose_action(room, player):
 	action = None
 	while not action:
+		print("----------------", end="")
 		available_actions = playeractions.get_available_actions(room, player)
 		action_input = input("\nAction: ")
 		action = available_actions.get(action_input)
-
+		print("----------------")
 		# If an action is type out, this will always run.
 		if action:
 			action()
@@ -108,7 +109,7 @@ def choose_action(room, player):
 			print("""
 		Invalid action!
 			""")
-
+		
 
 play()
 

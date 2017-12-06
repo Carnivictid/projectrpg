@@ -198,7 +198,7 @@ class Player:
 		while open:
 			print("\nW: Equip Weapon\nA: Equip Armor\nS: Equip Shield\nH: Heal\nC: Close backpack")
 			action_input = input("\nAction: ")
-			
+			print("----------------")
 			if action_input.lower() == "w":
 				self.equip("w")
 				open = False
@@ -260,6 +260,7 @@ class Player:
 		valid = False
 		while not valid:
 			choice = input("\nChoice: ")
+			print("----------------")
 			
 			if choice.lower() == "c": # cancels the equip function
 				return
@@ -287,6 +288,9 @@ class Player:
 					self.worn_armor = to_equ
 				if type == "s":
 					self.worn_shield = to_equ
+					
+				if worn_item != None:
+					self.item_inventory.append(worn_item)
 					
 				self.item_inventory.remove(to_equ)
 				self.refresh_ac_bonus()
@@ -419,6 +423,8 @@ class Player:
 					atkprint("You dealt {} damage to {}".format(damage, target))
 					
 				if target.is_dead():
+					room = world.tile_at(self.x, self.y)
+					room.is_dangerous = False
 					print("{} has died!".format(target))
 					self.exp += target.exp
 					print("The monster gives you", end=" ") 

@@ -237,3 +237,9 @@ class LightHealingPotion(Consumable):
 		self.healing_value = randint(1, 8) + 1
 		self.value = 50
 
+class LightBandage(Consumable):
+	def __init__(self):
+		self.name = "Light Bandage"
+		self.heals = "Heals 4 HP"
+		self.healing_value = 4
+		self.value = 5

@@ -16,6 +16,8 @@ If it has been accepted
 Quest dialogue
 """
 
+spawn_rat = 0
+
 
 class Quest:
 	def __init__(self):
