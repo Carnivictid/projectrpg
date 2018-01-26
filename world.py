@@ -5,6 +5,8 @@ from gameworld import starttown
 #import .gameworld.testhubs
 #import .gameworld.startdungeon
 
+# TODO: Make this a class for pickeling so we can save games.
+
 
 world_dsl = map.map
 world_map = []

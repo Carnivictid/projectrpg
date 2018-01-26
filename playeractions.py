@@ -4,8 +4,10 @@ from collections import OrderedDict
 from gameworld import testhubs
 from gameworld import startdungeon
 
+import newworld
 
-def get_available_actions(room, player):
+
+def get_available_actions(room, player, gs):
 	actions = OrderedDict()
 	print("\nChoose an action: ")
 	print("You: {}/{} HP | {} lv.{} | {} Exp".format(player.hp, player.max_hp, player.player_class, player.level, player.exp))
@@ -14,13 +16,13 @@ def get_available_actions(room, player):
 	if player.is_alive:
 		action_adder(actions, 'h', player.heal, "Heal\n") #TODO Add a healing function.
 	# ======= MOVEMENT COMMANDS ======= #
-	if world.tile_at(room.x, room.y - 1) and room.is_dangerous is False:
+	if gs.world.tile_at(room.x, room.y - 1) and room.is_dangerous is False:
 		action_adder(actions, 'n', player.move_north, "Go north")
-	if world.tile_at(room.x, room.y + 1) and room.is_dangerous is False:
+	if gs.world.tile_at(room.x, room.y + 1) and room.is_dangerous is False:
 		action_adder(actions, 's', player.move_south, "Go south")
-	if world.tile_at(room.x + 1, room.y) and room.is_dangerous is False:
+	if gs.world.tile_at(room.x + 1, room.y) and room.is_dangerous is False:
 		action_adder(actions, 'e', player.move_east, "Go east")
-	if world.tile_at(room.x - 1, room.y) and room.is_dangerous is False:
+	if gs.world.tile_at(room.x - 1, room.y) and room.is_dangerous is False:
 		action_adder(actions, 'w', player.move_west, "Go west")
 	# ======= ATTACK COMMANDS ======= #
 	if player.is_alive and room.is_dangerous:
