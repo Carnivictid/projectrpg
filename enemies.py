@@ -1,19 +1,20 @@
 import random
 from ctxt import *
 
+
 class Enemy:
 	def __init__(self):
-		raise NotImplementedError("Do not create raw Enemy objects.")
-
+		raise NotImplementedError("Do not create empty Enemy objects.")
+		
 	def __str__(self):
 		return self.name
-
+		
 	def is_alive(self):
 		return self.hp > 0
-
+		
 	def is_dead(self):
 		return self.hp <= 0
-
+	
 	def attack_player(self, player):
 		if self.is_alive(): 
 			print("\n{} attacks {}.".format(self.name, player))
@@ -25,22 +26,19 @@ class Enemy:
 			else:
 				missprint("{}'s attack misses {}!".format(self, player.name))
 		else:
-			print("Something broke. A dead enemy should not have called attack_player(self, player, number)")
+			print("Something broke. A dead enemy should not have called attack_player(self, player)")
+	
+	def get_exp(self, cr):
+		if cr == "1/4":
+			return 75
+		if cr == "1/3":
+			return 100
+		if cr == "1/2":
+			return 150
+		if cr == "1":
+			return 300
 
 
-def get_exp(cr):
-	if cr == "1/4":
-		return 75
-	if cr == "1/3":
-		return 100
-	if cr == "1/2":
-		return 150
-	if cr == "1":
-		return 300
-			
-			
-			
-			
 # ====== CR Lower than 1 ======= #
 class LargeRat(Enemy):
 	def __init__(self):
@@ -50,7 +48,7 @@ class LargeRat(Enemy):
 		self.ab = 4
 		self.str = 0
 		self.ac = 15
-		self.exp = get_exp("1/3")
+		self.exp = self.get_exp("1/3")
 
 
 class SmallGoblin(Enemy):
@@ -61,5 +59,5 @@ class SmallGoblin(Enemy):
 		self.ab = 1
 		self.str = -1
 		self.ac = 15
-		self.exp = get_exp("1/4")
+		self.exp = self.get_exp("1/4")
 

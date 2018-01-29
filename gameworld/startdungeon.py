@@ -112,7 +112,9 @@ it is is getting closer!\n"""
 		else:
 			return """\nThe sewer goes North and South. A T-Junction splits off to the East.\n"""
 		
-	def modify_player(self, player):			
+	def modify_player(self, player):		
+		if len(self.enemy) > 0:
+			self.enemy_attacks(player)
 		self.round_count += 1
 
 		

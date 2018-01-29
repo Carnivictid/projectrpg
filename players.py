@@ -1,36 +1,36 @@
-import items
-import world
-import random, os
-import enemies
-import classes
-import quests
-from ctxt import *
+import world #
+import classes #
+import items #
+import enemies #
+import quests #
+import random #
+import os #
+from ctxt import * #
 
 
 class Player:
-
-	def __init__(self, player_name, class_level):
-		# Round count for spell timers
-		self.rounds = 0
-		self.quest_list= []
+	def __init__(self, player_name, player_level):
+		self.rounds = 0 # Round count, for spell timers
+		self.quest_list = [] # Quests lists for journal
 		
-		# Starting location coordinates for the Player.
-		self.x = world.start_tile_location[0]
-		self.y = world.start_tile_location[1]
+		# Coordinates for the player
+		self.x = None
+		self.y = None
+		self.current_room = None
 		self.victory = False
-
-		# Class of the starting player.
+		
+		# Class information
 		self.name = player_name
-		self.level = class_level
+		self.level = player_level
 		self.exp = 0
 		self.player_class = classes.Fighter()
-
-		# Item inventory for the player.
+		
+		# Item inventory
 		self.item_inventory = []
 		self.map_inventory = []
 		self.gold = 0
-
-		# Ability Scores
+		
+		# Ability Scores (this will be changed to unit test)
 		self.str = 16
 		self.dex = 14
 		self.con = 14
@@ -46,10 +46,11 @@ class Player:
 		self.int_mod = int((self.int - 10) / 2)
 		self.cha_mod = int((self.cha - 10) / 2)
 		
+		# Combat stats
 		self.bab = self.player_class.base_attack[self.level]
 		self.attack_bonus = self.bab + self.str_mod
 		self.number_of_attacks = 0
-
+		
 		# Worn items and AC bonus
 		self.worn_armor = None
 		self.worn_shield = None
@@ -67,7 +68,7 @@ class Player:
 		self.base_fort = self.player_class.base_fort_save[self.level]
 		self.base_ref = self.player_class.base_ref_save[self.level]
 		self.base_will = self.player_class.base_will_save[self.level]
-
+		
 		# Total score for saves!
 		self.fort_save = 0 + self.base_fort + self.con_mod
 		self.ref_save = 0 + self.base_ref + self.dex_mod
@@ -77,16 +78,20 @@ class Player:
 		self.buff_status = False
 		self.last_round = 0
 		self.attack_actions = ['melee']
-
+		
 	def __str__(self):
 		return self.name
-
+		
 	def is_alive(self):
 		return self.hp > 0
-		
+	
 	def is_dead(self):
-		return self.hp < 0
+		return self.hp <= 0
 		
+	def set_x_y(self, x, y):
+		self.x = x
+		self.y = y
+
 	def level_up(self):
 		# up level and roll hp.
 		self.level += 1
@@ -347,8 +352,7 @@ class Player:
 		self.move(dx=-1, dy=0)
 		
 	def attack(self):
-		room = world.tile_at(self.x, self.y)
-		enemy = room.enemy
+		enemy = self.room.enemy
 
 		if len(enemy) > 1:
 			print("\nWhich enemy do you want {} to attack?".format(self.name))
@@ -423,8 +427,7 @@ class Player:
 					atkprint("You dealt {} damage to {}".format(damage, target))
 					
 				if target.is_dead():
-					room = world.tile_at(self.x, self.y)
-					room.is_dangerous = False
+					self.room.is_dangerous = False
 					print("{} has died!".format(target))
 					self.exp += target.exp
 					print("The monster gives you", end=" ") 
@@ -432,8 +435,7 @@ class Player:
 				if not hit:
 					missprint("\nThe attack missed!")
 			ab -= 5
-
-			
+		
 	def check_weight(self):
 		pass
 		
@@ -448,32 +450,12 @@ class Player:
 			self.level_up()
 			
 	def trade(self):
-		room = world.tile_at(self.x, self.y)
-		room.check_if_trade(self)
+		self.room.check_if_trade(self)
 	
 	def talk(self):
-		room = world.tile_at(self.x, self.y)
-		room.talk(self)
+		self.room.talk(self)
 		
 	def get_quest(self, quest):
 		for n, q in enumerate(self.quest_list):
 			if isinstance(q, quest):
 				return q
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		

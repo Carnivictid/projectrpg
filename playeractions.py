@@ -1,10 +1,6 @@
-import npc
-import world
 from collections import OrderedDict
 from gameworld import testhubs
 from gameworld import startdungeon
-
-import newworld
 
 
 def get_available_actions(room, player, gs):
