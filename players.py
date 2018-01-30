@@ -459,3 +459,7 @@ class Player:
 		for n, q in enumerate(self.quest_list):
 			if isinstance(q, quest):
 				return q
+
+	def give_item(self, item):
+		self.item_inventory.append(item)
+

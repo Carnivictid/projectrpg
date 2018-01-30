@@ -1,6 +1,5 @@
 from collections import OrderedDict
-from gameworld import testhubs
-from gameworld import startdungeon
+import npc
 
 
 def get_available_actions(room, player, gs):

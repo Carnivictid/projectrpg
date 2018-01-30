@@ -1,7 +1,5 @@
 import map
-from gameworld import testhubs
-from gameworld import startdungeon
-from gameworld import starttown
+from gameworld import conceptmap
 
 
 class WorldClass:
@@ -10,40 +8,19 @@ class WorldClass:
 		self.world_map = []
 		self.start_tile_location = None
 		
-		self.STARTING_TILE = startdungeon.StartDungeon1 #testhubs.StartingTile
-		self.VICTORY_TILE = testhubs.VictoryTile
+		self.STARTING_TILE = conceptmap.StartingTile
+		self.VICTORY_TILE = conceptmap.VictoryTile
 
 		# Could change this to a new file alltogether. 
 		# World.py shouldn't have anything else added to it.
 		self.tile_type_dict = {
 			"STT": self.STARTING_TILE,
 			"VYT": self.VICTORY_TILE,
-			"ENT": testhubs.EnemyTile,
-			"TRT": testhubs.TraderTile,
-			"QGT": testhubs.QuestTile,
-			"SD1": startdungeon.StartDungeon1,
-			"SD2": startdungeon.StartDungeon2,
-			"S2B": startdungeon.StartDungeon2b,
-			"SD3": startdungeon.StartDungeon3,
-			"S3B": startdungeon.StartDungeon3b,
-			"SD4": startdungeon.StartDungeon4,
-			"MC1": starttown.MaencarCoasts1,
-			"MC2": starttown.MaencarCoasts2,
-			"MC3": starttown.MaencarCoasts3,
-			"MC4": starttown.MaencarCoasts4,
-			"MC5": starttown.MaencarCoasts5,
-			"MC6": starttown.MaencarCoasts6,
-			"MC7": starttown.MaencarCoasts7,
-			"MC8": starttown.MaencarCoasts8,
-			"MC9": starttown.MaencarCoasts9,
-			"MCD": starttown.MaencarDock,
-			"WH1": starttown.Warehouse1,
-			"WH2": starttown.Warehouse2,
-			"WH3": starttown.Warehouse3,
-			"WH4": starttown.Warehouse4,
-			"WH5": starttown.Warehouse5,
-			"WH6": starttown.Warehouse6,
-			"WH7": starttown.Warehouse7,
+			"ST1": conceptmap.Tile1,
+			"ST2": conceptmap.Tile2,
+			"ST3": conceptmap.Tile3,
+			"ST4": conceptmap.Tile4,
+			"ST5": conceptmap.Tile5,
 			"   ": None}
 
 		self.parse_world_dsl()
