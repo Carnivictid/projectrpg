@@ -1,11 +1,11 @@
-import world #
-import classes #
-import items #
-import enemies #
-import quests #
-import random #
-import os #
-from ctxt import * #
+import world
+import classes
+import items
+import enemies
+import quests
+import random
+import os
+from ctxt import *
 
 
 class Player:
@@ -78,16 +78,16 @@ class Player:
 		self.buff_status = False
 		self.last_round = 0
 		self.attack_actions = ['melee']
-		
+
 	def __str__(self):
 		return self.name
-		
+
 	def is_alive(self):
 		return self.hp > 0
-	
+
 	def is_dead(self):
 		return self.hp <= 0
-		
+
 	def set_x_y(self, x, y):
 		self.x = x
 		self.y = y
@@ -95,45 +95,42 @@ class Player:
 	def level_up(self):
 		# up level and roll hp.
 		self.level += 1
-		print("You have leveled to Level: {}".format(self.level))
-		
-		hd_roll = random.randint(1, self.hit_dice) + self.con_mod
+		hd_roll = roll_dice(self.hit_dice, 1, self.con_mod)
 		self.max_hp += hd_roll
 		self.hp = self.max_hp
-		print("You have gained {} HP for a total of {} HP".format(hd_roll, self.max_hp))
 		self.refresh_level()
-	
+		
+		print("You are now Level: {}!\nHP increased {} points! You have {} HP".format(self.level, hd_roll, self.max_hp))
+
 	def refresh_ac_bonus(self):
 		self.ac_bonus = self.get_ac_bonus()
 		self.ac = int(10 + self.ac_bonus)
-		
+
 	def get_ac_bonus(self):
 		# armor + shield + dex(no more than max dex from armor)
 		total_ac_bonus = 0
-		
+		# Add shield bonus if you have one
 		if self.worn_shield is not None:
 			shield_ac = self.worn_shield.ac_bonus
 		else:
 			shield_ac = 0
-		
+		# Add the armor bonus if you have it, check max dex
 		if self.worn_armor is not None:
 			armor_ac = self.worn_armor.ac_bonus
 			max_dex = self.worn_armor.max_dex
 		else:
 			armor_ac = 0
 			max_dex = 100
-		
+		# if you have more dex than max dex, your mod is armor's max dex
 		if self.dex_mod > max_dex:
 			dex_ac = max_dex
 		else:
 			dex_ac = self.dex_mod
 		
-		total_ac_bonus = armor_ac + shield_ac + dex_ac
-		
-		return total_ac_bonus
-		 
+		return (armor_ac + shield_ac + dex_ac)
+	 
 	def refresh_level(self):
-		# This function refreshes all of the stat-dependant variables. All are in the Player __init__
+		# This function refreshes all of the stat-dependant variables.
 		# Recalculating ability modifiers
 		self.str_mod = int((self.str - 10) / 2)
 		self.dex_mod = int((self.dex - 10) / 2)
@@ -156,7 +153,7 @@ class Player:
 		self.bab = self.player_class.base_attack[self.level]
 		self.number_of_attacks = self.generate_number_of_attacks(self.bab)
 		self.attack_bonus = self.bab + self.str_mod
-		
+
 	def generate_number_of_attacks(self, base):
 		# This just calculates the number of attacks based on BAB.
 		filler = base
@@ -171,7 +168,6 @@ class Player:
 
 	def print_inventory(self):
 		# Prints a list of inventory
-		
 		print("="*16)
 		print("Level: {} | EXP: {} | Gold: {}".format(self.level, self.exp, self.gold))
 		print("HP: {}/{} | AC: {}".format(self.hp, self.max_hp, self.ac))
@@ -207,23 +203,17 @@ class Player:
 			if action_input.lower() == "w":
 				self.equip("w")
 				open = False
-				
 			elif action_input.lower() == "a":
 				self.equip("a")
 				open = False
-				
 			elif action_input.lower() == "s":
 				self.equip("s")
 				open = False
-				
 			elif action_input.lower() == "h":
 				self.heal()
 				open = False
-				
 			elif action_input.lower() == "c":
 				return
-				
-				
 			else:
 				print("\nThat is not a valid action, try again.")
 
@@ -334,7 +324,7 @@ class Player:
 				valid = True
 			except (ValueError, IndexError):
 				print("Invalid choice, try again.")
-			
+
 	def move(self, dx, dy):
 		self.x += dx
 		self.y += dy
@@ -350,7 +340,7 @@ class Player:
 
 	def move_west(self):
 		self.move(dx=-1, dy=0)
-		
+
 	def attack(self):
 		enemy = self.room.enemy
 
@@ -463,3 +453,5 @@ class Player:
 	def give_item(self, item):
 		self.item_inventory.append(item)
 
+	def roll_dice(self, die, count, mods):
+		return (random.randint(count, die) + mods)

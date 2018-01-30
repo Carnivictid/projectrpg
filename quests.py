@@ -1,22 +1,6 @@
 import world
 import items
 
-# Quests... How do we handle this.....
-"""
-What is needed for a quest?
-Name, gold, exp, item rewards
-
-Quest start location
-Quest start requirements
-
-Quest finish requirements
-Quest failed requirements
-
-If it has been accepted
-Quest dialogue
-"""
-
-spawn_rat = 0
 
 
 class Quest:
@@ -36,6 +20,8 @@ class Quest:
 			player.item_inventory.append(item)
 		self.complete = True
 
+
+
 class NoobQuest(Quest):
 	def __init__(self):
 		self.quest_status = 0
@@ -54,3 +40,4 @@ class NoobQuest(Quest):
 
 	def update_quest_log(self, quest_log_text):
 		self.quest_log.append(quest_log_text)
+
