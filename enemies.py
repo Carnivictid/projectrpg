@@ -38,7 +38,7 @@ class Enemy:
 		if cr == "1":
 			return 300
 	
-	def set_as_quest_obj(self, obj)
+	def set_as_quest_obj(self, obj):
 		self.quest_obj = obj
 
 
