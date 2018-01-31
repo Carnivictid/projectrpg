@@ -37,6 +37,9 @@ class Enemy:
 			return 150
 		if cr == "1":
 			return 300
+	
+	def set_as_quest_obj(self, obj)
+		self.quest_obj = obj
 
 
 # ====== CR Lower than 1 ======= #
@@ -49,6 +52,7 @@ class LargeRat(Enemy):
 		self.str = 0
 		self.ac = 15
 		self.exp = self.get_exp("1/3")
+		self.quest_obj = None
 
 
 class SmallGoblin(Enemy):
@@ -60,4 +64,5 @@ class SmallGoblin(Enemy):
 		self.str = -1
 		self.ac = 15
 		self.exp = self.get_exp("1/4")
+		self.quest_obj = None
 
